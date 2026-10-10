@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>MEND — The Weekly Drop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0c0b;--fg:#efe9df;--mut:#8d867b;--line:#2a2724;--sig:#ff4a1c;--card:#161412;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#efe9df;--fg:#14110f;--mut:#6f685d;--line:#d4cbbc;--card:#e6dfd2}}
+:root[data-theme="light"]{--bg:#efe9df;--fg:#14110f;--mut:#6f685d;--line:#d4cbbc;--card:#e6dfd2}
+:root[data-theme="dark"]{--bg:#0d0c0b;--fg:#efe9df;--mut:#8d867b;--line:#2a2724;--card:#161412}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--fg);font:400 17px/1.55 'Bricolage Grotesque',system-ui,sans-serif;overflow-x:hidden}
+.mono{font:600 11px/1.4 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+h1,h2,h3{font-weight:800;letter-spacing:-.04em;line-height:.9}
+h1{font-size:clamp(3.4rem,13vw,13rem)}h2{font-size:clamp(2.4rem,7vw,7rem)}
+.ch{display:inline-block;will-change:transform}
+a{color:inherit;text-decoration:none}
+@media (hover:hover){body{cursor:none}a,button,input{cursor:none}}
+#cur{position:fixed;z-index:99;left:0;top:0;width:12px;height:12px;border-radius:50%;background:var(--sig);pointer-events:none;mix-blend-mode:normal;display:grid;place-items:center;font:600 9px 'JetBrains Mono';color:#fff}
+@media (hover:none){#cur{display:none}}
+nav{position:fixed;z-index:50;top:env(safe-area-inset-top,0px);left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 4vw;mix-blend-mode:difference;color:#fff}
+nav b{font-size:26px;letter-spacing:-.06em;font-weight:800}nav div{display:flex;gap:28px}
+nav a{font:600 11px 'JetBrains Mono';letter-spacing:.14em;text-transform:uppercase}
+#prog{position:fixed;z-index:60;top:0;left:0;height:3px;width:100%;background:var(--sig);transform:scaleX(0);transform-origin:0 50%}
+#load{position:fixed;inset:0;z-index:100;background:var(--sig);color:#14110f;display:flex;align-items:flex-end;justify-content:space-between;padding:4vw;font-weight:800;font-size:clamp(4rem,16vw,16rem);letter-spacing:-.06em;line-height:.8}
+section{position:relative}
+.pin{height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;padding:0 4vw}
+.btn{display:inline-flex;gap:12px;align-items:center;padding:18px 28px;border-radius:99px;background:var(--sig);color:#14110f;font:600 12px 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;transition:transform .3s,background .3s;will-change:transform}
+.btn.ghost{background:none;border:1px solid var(--fg);color:var(--fg)}.btn:hover{background:var(--fg);color:var(--bg)}
+#hero{flex-direction:column;justify-content:flex-end;align-items:flex-start;padding-bottom:6vh}
+#hc{position:absolute;inset:0;width:100%;height:100%}
+#hero>*:not(canvas){position:relative}
+#hero p{max-width:460px;margin:3vh 0 28px;color:var(--mut)}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.scroll{position:absolute!important;right:4vw;bottom:6vh;writing-mode:vertical-rl}
+/* thread */
+#thread{gap:4vw;justify-content:space-between}
+#thread svg{width:min(46vw,560px);flex:none;overflow:visible}
+.caps{position:relative;flex:1;height:60vh}
+.cap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:20px;opacity:0}
+.cap h2{font-size:clamp(2.2rem,5.5vw,5.5rem)}.cap p{max-width:440px;color:var(--mut)}
+/* labels */
+#labels{align-items:stretch;padding:0}
+#track{display:flex;gap:2vw;padding:14vh 4vw 8vh;height:100%;align-items:stretch}
+.intro{flex:none;width:34vw;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.card{flex:none;width:min(34vw,420px);min-width:290px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .3s,background .3s;transform-style:preserve-3d}
+.card:hover{border-color:var(--sig)}.card h3{font-size:clamp(2.6rem,5vw,4.6rem)}.card p{color:var(--mut);font-size:15px}
+.card .big{font-size:9rem;font-weight:800;line-height:.7;color:var(--line);transition:color .3s}.card:hover .big{color:var(--sig)}
+/* marquee */
+#mq{padding:12vh 0;overflow:hidden;border-block:1px solid var(--line)}
+#mq div{white-space:nowrap;font-size:clamp(4rem,14vw,14rem);font-weight:800;letter-spacing:-.05em;line-height:1;will-change:transform}
+#mq span{-webkit-text-stroke:2px var(--fg);color:transparent}
+/* map */
+#mapS{justify-content:space-between;gap:3vw}
+#mapS canvas{height:88vh;flex:1;min-width:0}
+.mcopy{width:min(38vw,520px);display:flex;flex-direction:column;gap:22px;flex:none}
+.num{font-size:clamp(6rem,17vw,16rem);font-weight:800;letter-spacing:-.07em;line-height:.8;color:var(--sig)}
+#now{min-height:3em}
+/* ship */
+#ship{flex-direction:column;align-items:stretch;justify-content:center;gap:4vh}
+#ship svg{width:100%;height:34vh;overflow:visible}
+.stops{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stop{border-top:2px solid var(--line);padding-top:14px;opacity:.35;transition:.4s}.stop.on{opacity:1;border-color:var(--sig)}
+.stop b{font-size:1.6rem;letter-spacing:-.03em;display:block;line-height:1.1}.stop p{font-size:14px;color:var(--mut)}
+/* diff */
+#diff{padding:18vh 4vw}
+.dr{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;gap:3vw;padding:34px 0;border-top:1px solid var(--line);align-items:start;transition:background .3s,padding .3s}
+.dr:hover{background:var(--card);padding-inline:20px}
+.dr h3{font-size:clamp(1.6rem,3vw,2.6rem)}.dr .x{color:var(--mut);text-decoration:line-through;text-decoration-color:var(--sig)}
+/* cta */
+#cta{min-height:100vh;padding:18vh 4vw 6vh;display:flex;flex-direction:column;justify-content:space-between;gap:10vh}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;border-top:1px solid var(--line);padding-top:24px}
+/* pages */
+.page{position:fixed;inset:0;z-index:70;background:var(--bg);overflow:auto;clip-path:circle(0% at 100% 0);visibility:hidden;padding:12vh 4vw 8vh}
+.page .x{position:fixed;top:20px;right:4vw}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:30px 0 50px}
+.st{border:1px solid var(--line);border-radius:6px;padding:20px;display:block;transition:.3s}.st:hover{border-color:var(--sig);transform:translateY(-4px)}
+.st b{display:block;font-size:1.3rem;letter-spacing:-.02em}.st span{font-size:13px;color:var(--mut)}
+.pol{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-top:40px}
+.pol div{border-top:2px solid var(--sig);padding-top:14px}.pol h3{font-size:1.8rem;margin-bottom:8px;letter-spacing:-.03em;line-height:1}.pol p{color:var(--mut);font-size:15px}
+input[type=range]{width:100%;accent-color:var(--sig)}
+.calc{border:1px solid var(--line);padding:26px;border-radius:6px;margin-top:20px;max-width:560px}
+.bar{height:6px;background:var(--line);margin:16px 0 8px;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--sig);width:0;transition:width .3s}
+@media(max-width:800px){nav div{display:none}.pin{padding:0 5vw}#thread{flex-direction:column;justify-content:center}#thread svg{width:62vw}.caps{height:34vh;width:100%;flex:none}.intro{width:78vw}#mapS{flex-direction:column;padding-top:9vh}#mapS canvas{height:46vh;width:100%;flex:none}.mcopy{width:100%;gap:8px}.num{font-size:5rem}.stops{grid-template-columns:1fr 1fr}.dr{grid-template-columns:1fr}}
+</style></head><body>
+<div id="prog"></div><div id="cur"></div>
+<div id="load"><span>MEND</span><span id="ln">0</span></div>
+<nav><b data-c>mend</b><div><a href="#story" data-c>Story</a><a href="#stores" data-c>Stores</a><a href="#shipping" data-c>Shipping</a><a href="https://mymend.com/collections/newarrivals" target="_blank" rel="noopener" data-c>Shop ↗</a></div></nav>
+
+<section id="hero" class="pin"><canvas id="hc"></canvas>
+<span class="mono">Est. 2019 · Kerala to Coimbatore · 19 stores</span>
+<h1 data-split>Every week,<br>a new drop.</h1>
+<p>MEND is menswear built like a system — thread, stock, store and doorstep moving in step. Scroll to follow one shirt from loom to you.</p>
+<div class="row"><a class="btn" data-mag data-c href="https://mymend.com/collections/newarrivals" target="_blank" rel="noopener">Shop the new drop →</a><a class="btn ghost" data-mag data-c href="#stores">Find a store</a></div>
+<span class="mono scroll">Scroll — the shirt is waiting</span></section>
+
+<section id="thread" class="pin">
+<svg viewBox="0 0 200 200"><path id="shirtFill" d="M70 20 L40 40 L10 75 L35 95 L50 80 L50 180 L150 180 L150 80 L165 95 L190 75 L160 40 L130 20 Q100 45 70 20Z" fill="var(--sig)" opacity="0"/>
+<path id="shirt" pathLength="1" d="M70 20 L40 40 L10 75 L35 95 L50 80 L50 180 L150 180 L150 80 L165 95 L190 75 L160 40 L130 20 Q100 45 70 20Z" fill="none" stroke="var(--fg)" stroke-width="1.6" stroke-dasharray="1" stroke-dashoffset="1"/>
+<path id="stitch" pathLength="1" d="M56 172 H144 M70 26 Q100 50 130 26 M100 48 V172" fill="none" stroke="var(--sig)" stroke-width="1.2" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+<div class="caps">
+<div class="cap"><span class="mono">01 / Thread</span><h2>Born in 2019 as one connected machine.</h2><p>MEND launched as a highly integrated fast-fashion label — design, stock and stores run as one loop instead of separate departments.</p></div>
+<div class="cap"><span class="mono">02 / Cut</span><h2>Thought into every garment.</h2><p>Each piece is made with attention to quality and to the environment — from 100% cotton drop-shoulders to breathable linen and rayon.</p></div>
+<div class="cap"><span class="mono">03 / Finish</span><h2>Fresh stock, every single week.</h2><p>New collections land weekly, so the wardrobe stays vibrant and relevant — priced from ₹599 to ₹999 for most shirts.</p></div>
+</div></section>
+
+<section id="labels" class="pin"><div id="track">
+<div class="intro"><span class="mono">The house of MEND</span><h2>Three labels. Three fits.</h2><p>Pick a mood by label, then pick how it sits on you. Drag your scroll sideways.</p><a class="btn" data-mag data-c href="https://mymend.com/collections/newarrivals" target="_blank" rel="noopener">Browse everything →</a></div>
+<a class="card" data-tilt data-c href="https://mymend.com/collections/urbn" target="_blank" rel="noopener"><span class="mono">Label</span><div class="big">U</div><div><h3>URBN</h3><p>City-ready shirts. Oxford and everyday staples from ₹799.</p></div></a>
+<a class="card" data-tilt data-c href="https://mymend.com/collections/eterna" target="_blank" rel="noopener"><span class="mono">Label</span><div class="big">E</div><div><h3>ETERNA</h3><p>Linen and rayon with a lighter hand. Shirts, tees and jeans.</p></div></a>
+<a class="card" data-tilt data-c href="https://mymend.com/collections/cozta" target="_blank" rel="noopener"><span class="mono">Label</span><div class="big">C</div><div><h3>COZTA</h3><p>Comfort-first pieces — shirts, tees and jeans for long days.</p></div></a>
+<a class="card" data-tilt data-c href="https://mymend.com/collections/sydney" target="_blank" rel="noopener"><span class="mono">Fit</span><div class="big">S</div><div><h3>Sydney</h3><p>Semi-slim. Sharp without squeezing.</p></div></a>
+<a class="card" data-tilt data-c href="https://mymend.com/collections/tokyo" target="_blank" rel="noopener"><span class="mono">Fit</span><div class="big">T</div><div><h3>Tokyo</h3><p>Relaxed fit with room to move.</p></div></a>
+<a class="card" data-tilt data-c href="https://mymend.com/collections/rio" target="_blank" rel="noopener"><span class="mono">Fit</span><div class="big">R</div><div><h3>Rio</h3><p>Drop shoulder and baggy wide-leg attitude.</p></div></a>
+<div style="flex:none;width:6vw"></div></div></section>
+
+<section id="mq"><div id="mqa">NEW DROP <span>EVERY WEEK</span> NEW DROP <span>EVERY WEEK</span> NEW DROP</div></section>
+
+<section id="mapS" class="pin"><div class="mcopy"><span class="mono">04 / Shelf</span><div class="num" id="cnt">0</div><h2 style="font-size:clamp(2rem,4vw,4rem)">stores. Closer than you think.</h2><p id="now" class="mono">—</p><p style="color:var(--mut)">Stores that feel familiar and energetic, from Malabar to Alappuzha and across the border in Coimbatore. A Thrissur flagship is on its way.</p><div><a class="btn ghost" data-c data-mag href="#stores">All 19 addresses →</a></div></div><canvas id="mc"></canvas></section>
+
+<section id="ship" class="pin"><div><span class="mono">05 / Doorstep</span><h2 style="margin-top:14px">Ordered. Packed.<br>On its way.</h2></div>
+<svg viewBox="0 0 1000 200" preserveAspectRatio="none"><path id="route" d="M10 150 C200 20 300 190 500 100 S800 30 990 120" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 8"/><path id="routeOn" d="M10 150 C200 20 300 190 500 100 S800 30 990 120" fill="none" stroke="var(--sig)" stroke-width="3"/><circle id="dot" r="9" fill="var(--sig)"/></svg>
+<div class="stops"><div class="stop"><b>Order placed</b><p>Prepaid only. WhatsApp, SMS or email confirmation.</p></div><div class="stop"><b>1–2 days</b><p>Processed Monday to Saturday.</p></div><div class="stop"><b>Dispatched</b><p>Tracking link goes to your phone.</p></div><div class="stop"><b>3–10 days</b><p>Most orders. 7–12 for remote pin codes.</p></div></div></section>
+
+<section id="diff"><span class="mono">06 / Why MEND</span><h2 style="margin:16px 0 50px">Not another<br>shirt rack.</h2>
+<div class="dr"><h3>Systems</h3><p class="x">Disconnected buying, warehouse and store teams.</p><p>Stock and operations guided by one integrated system, so every store stays in sync.</p></div>
+<div class="dr"><h3>Rhythm</h3><p class="x">Two seasons a year, then clearance.</p><p>Collections arrive weekly. There is always something new on the table.</p></div>
+<div class="dr"><h3>Reach</h3><p class="x">Online only, or a single flagship.</p><p>19 stores across Kerala and Coimbatore plus a nationwide online store and app.</p></div>
+<div class="dr"><h3>Price</h3><p class="x">Premium look, premium markup.</p><p>Shirts from ₹599. Free shipping on prepaid orders above ₹1,699.</p></div>
+<div class="dr"><h3>Trust</h3><p class="x">Fine print and surprises.</p><p>Trusted by 500,000+ customers. Support on WhatsApp, Monday to Saturday, 9 to 6.</p></div></section>
+
+<section id="cta"><div><span class="mono">07 / You</span><h1 data-split style="margin-top:20px">Wear the<br>drop.</h1></div>
+<div class="row"><a class="btn" data-mag data-c href="https://mymend.com/collections/newarrivals" target="_blank" rel="noopener">Shop new in →</a><a class="btn ghost" data-mag data-c href="https://wa.me/918252323232?text=Hi%20I%27d%20like%20to%20purchase" target="_blank" rel="noopener">Order on WhatsApp</a><a class="btn ghost" data-mag data-c href="https://apps.apple.com/in/app/mend-fashion/id6788279064" target="_blank" rel="noopener">iOS app</a><a class="btn ghost" data-mag data-c href="https://play.google.com/store/apps/details?id=com.mymend" target="_blank" rel="noopener">Android app</a></div>
+<footer class="mono"><span>© 2026 MEND · Montzo Life Fashion and Retail LLP, Bengaluru</span><span>support@mymend.com · +91 82523 23232</span><span>A concept story site — not official</span></footer></section>
+
+<div class="page" id="p-stores"><a class="btn ghost x" href="#story" data-c>Close ✕</a><span class="mono">Store directory</span><h2 style="margin:14px 0">19 stores.<br>One MEND.</h2><p style="color:var(--mut)">Tap any store for directions. Thrissur (new) is launching soon.</p><div id="sg"></div></div>
+
+<div class="page" id="p-shipping"><a class="btn ghost x" href="#story" data-c>Close ✕</a><span class="mono">Shipping desk</span><h2 style="margin:14px 0">Delivery,<br>decoded.</h2>
+<div class="calc"><span class="mono">Your cart total</span><h3 id="cv" style="font-size:3rem;margin:8px 0">₹999</h3><input id="rg" type="range" min="299" max="2500" step="50" value="999"><div class="bar"><i id="br"></i></div><p id="cm"></p></div>
+<div class="pol"><div><h3>Charges</h3><p>Free shipping on prepaid orders above ₹1,699. Below that, a flat ₹49. Prepaid only — no Cash on Delivery.</p></div><div><h3>Processing</h3><p>1–2 working days. Shipping runs Monday to Saturday; Sunday and holiday orders move next working day.</p></div><div><h3>Delivery</h3><p>Typically 3–10 working days after dispatch; 7–12 for remote areas. Estimates, not guarantees.</p></div><div><h3>Tracking</h3><p>Link shared by SMS, WhatsApp or email once the courier picks up. It can take a little while to activate.</p></div><div><h3>Problems</h3><p>Damaged, wrong or incomplete? Contact MEND within 48 hours of delivery with your order number and photos.</p></div><div><h3>Cancel</h3><p>Before dispatch only, with a full refund to the original payment method. Contact support quickly.</p></div></div>
+<p style="margin:40px 0 20px;color:var(--mut)">Support replies in 24–48 working hours: support@mymend.com · +91 82523 23232</p><a class="btn" data-c href="https://mymend.com/apps/order-tracking" target="_blank" rel="noopener">Track an order ↗</a></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+// stores: [name, lat, lng, district, address]
+const S=[["Kakkanad",10.0357,76.3347,"Ernakulam","Vallathol Jn, Seaport–Airport Rd"],["Malappuram",11.049,76.071,"Malappuram","PK Tower, Down Hill"],["Manjeri",11.1206,76.1106,"Malappuram","Kozhikode–Malappuram Bypass, Thurakkal"],["Perinthalmanna",10.984,76.221,"Malappuram","Bypass Road"],["Kottakkal",11.0002,75.9979,"Malappuram","Chuthupara, Changuvetti"],["Tirur",10.902,75.9231,"Malappuram","Montzo One, Police Line Rd"],["Edavannappara",11.2452,75.9714,"Malappuram","Calicut Road, Vazhakkad"],["Kondotty",11.1445,75.9669,"Malappuram","Kondotty Bypass Rd"],["Nilambur",11.2821,76.2332,"Malappuram","VP Plaza, Janathapadi"],["Edappal",10.7926,76.0079,"Malappuram","Thrissur–Kunnamkulam Rd"],["Kozhikode · HiLite Mall",11.2475,75.8327,"Kozhikode","1st Floor, Thondayad Bypass"],["Nadapuram",11.6859,75.6556,"Kozhikode","Nadapuram–Kuttiady Rd"],["Thrissur · HiLite Mall",10.4955,76.2567,"Thrissur","1st Floor, Kuttanellur"],["Triprayar",10.4125,76.1091,"Thrissur","Signal Junction, NH 66"],["Perumpilavu",10.6983,76.0923,"Thrissur","Falcon Mall"],["Alappuzha",9.5002,76.337,"Alappuzha","Private Bus Stand Road"],["Thodupuzha",9.8926,76.7098,"Idukki","Vattappillil Square"],["Sulthan Bathery",11.6607,76.2419,"Wayanad","Dhottappankulam"],["Coimbatore",11.0058,76.9733,"Tamil Nadu","Avinashi Rd, Race Course"]];
+const D=[...S].sort((a,b)=>b[1]-a[1]);
+// directory
+const g={};S.forEach(s=>(g[s[3]]??=[]).push(s));
+$('#sg').innerHTML=Object.entries(g).map(([d,a])=>`<h3 style="margin:34px 0 0;font-size:2rem">${d}</h3><div class="sg">${a.map(s=>`<a class="st" data-c target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('MEND '+s[0].split(' · ')[0]+' '+s[4])}"><b>${s[0]}</b><span>${s[4]} · Directions ↗</span></a>`).join('')}</div>`).join('');
+// split
+function split(el){const w=[];el.childNodes.forEach(n=>{if(n.nodeType==3)[...n.textContent].forEach(c=>w.push(c==' '?' ':`<span class="ch">${c}</span>`));else w.push(n.outerHTML)});el.innerHTML=w.join('')}
+$$('[data-split]').forEach(split);
+// cursor + magnet + tilt
+const cur=$('#cur');let mx=innerWidth/2,my=innerHeight/2;
+addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;gsap.to(cur,{x:mx-6,y:my-6,duration:.2})});
+$$('[data-c]').forEach(e=>{e.onmouseenter=()=>gsap.to(cur,{scale:3.2,duration:.3});e.onmouseleave=()=>gsap.to(cur,{scale:1,duration:.3})});
+$$('[data-mag]').forEach(b=>{b.onmousemove=e=>{const r=b.getBoundingClientRect();gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.3,y:(e.clientY-r.top-r.height/2)*.4,duration:.3})};b.onmouseleave=()=>gsap.to(b,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'})});
+$$('[data-tilt]').forEach(c=>{c.onmousemove=e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;gsap.to(c,{rotateY:x*14,rotateX:-y*14,transformPerspective:700,duration:.4})};c.onmouseleave=()=>gsap.to(c,{rotateX:0,rotateY:0,duration:.6})});
+// hero threads
+const hc=$('#hc'),hx=hc.getContext('2d');let HW,HH;
+function hr(){HW=hc.width=hc.offsetWidth;HH=hc.height=hc.offsetHeight}hr();addEventListener('resize',hr);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function threads(t){hx.clearRect(0,0,HW,HH);hx.lineWidth=1;const fg=css('--line'),sg=css('--sig');
+for(let i=0;i<48;i++){const x0=HW*i/47;hx.beginPath();hx.strokeStyle=i%9==0?sg:fg;
+for(let y=0;y<=HH;y+=18){const dx=x0-mx,dy=y-my,d=Math.hypot(dx,dy),push=Math.max(0,1-d/220)*60*Math.sign(dx||1);
+const x=x0+Math.sin(y*.008+t*.0006+i)*14+push;y?hx.lineTo(x,y):hx.moveTo(x,y)}hx.stroke()}}
+// map
+const mc=$('#mc'),mxx=mc.getContext('2d');let MW,MH,lit=0,hov=-1;
+function mr(){const d=devicePixelRatio||1;MW=mc.offsetWidth;MH=mc.offsetHeight;mc.width=MW*d;mc.height=MH*d;mxx.setTransform(d,0,0,d,0,0)}mr();addEventListener('resize',mr);
+const P=s=>{const k=Math.min(MW/1.7,MH/2.6),x0=(MW-1.6*k)/2;return[x0+(s[2]-75.5)*k,(11.9-s[1])*k+MH*.02]};
+mc.onpointermove=e=>{const r=mc.getBoundingClientRect();hov=-1;D.forEach((s,i)=>{if(i<lit){const p=P(s);if(Math.hypot(p[0]-(e.clientX-r.left),p[1]-(e.clientY-r.top))<16)hov=i}});if(hov>=0)$('#now').textContent=D[hov][0]+' — '+D[hov][4]};
+function drawMap(t){mxx.clearRect(0,0,MW,MH);const sg=css('--sig'),fg=css('--fg'),ln=css('--line');
+for(let a=0;a<D.length;a++)for(let b=a+1;b<D.length;b++){if(a>=lit||b>=lit)continue;const A=P(D[a]),B=P(D[b]);if(Math.hypot(A[0]-B[0],A[1]-B[1])<MH*.2){mxx.strokeStyle=ln;mxx.beginPath();mxx.moveTo(...A);mxx.lineTo(...B);mxx.stroke()}}
+D.forEach((s,i)=>{const p=P(s),on=i<lit;mxx.beginPath();mxx.fillStyle=on?sg:ln;const r=on?(i==hov?9:5)+(i==lit-1?Math.sin(t*.008)*2:0):2.5;mxx.arc(p[0],p[1],r,0,7);mxx.fill();if(on&&(i==lit-1||i==hov)){mxx.strokeStyle=sg;mxx.beginPath();mxx.arc(p[0],p[1],r+8+Math.sin(t*.005)*4,0,7);mxx.stroke();mxx.fillStyle=fg;mxx.font='600 11px JetBrains Mono';mxx.fillText(s[0].toUpperCase(),p[0]+16,p[1]+4)}})}
+gsap.ticker.add(t=>{threads(t*1000);drawMap(t*1000)});
+// loader + hero
+const ln={v:0};
+gsap.to(ln,{v:100,duration:1.6,ease:'power2.inOut',onUpdate:()=>$('#ln').textContent=Math.round(ln.v),onComplete:()=>{gsap.timeline().to('#load',{yPercent:-100,duration:1,ease:'expo.inOut'}).from('#hero .ch',{yPercent:120,rotate:6,stagger:.025,duration:1,ease:'expo.out'},'-=.4').from('#hero p,#hero .row,#hero .mono',{y:30,opacity:0,stagger:.1},'-=.7')}});
+gsap.to('#prog',{scaleX:1,ease:'none',scrollTrigger:{scrub:.2,start:0,end:'max'}});
+gsap.to('#hero h1',{yPercent:-30,opacity:.1,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+// shirt story
+const caps=$$('.cap');
+gsap.timeline({scrollTrigger:{trigger:'#thread',pin:true,scrub:1,start:'top top',end:'+=300%'}})
+.to('#shirt',{strokeDashoffset:0,duration:2,ease:'none'}).to(caps[0],{opacity:1,y:0,duration:.6},0.2).to(caps[0],{opacity:0,y:-40,duration:.5},1.8)
+.to('#stitch',{strokeDashoffset:0,duration:1.5,ease:'none'},2).fromTo(caps[1],{opacity:0,y:40},{opacity:1,y:0,duration:.6},2.1).to(caps[1],{opacity:0,y:-40,duration:.5},3.6)
+.to('#shirtFill',{opacity:1,duration:1},3.7).fromTo(caps[2],{opacity:0,y:40},{opacity:1,y:0,duration:.6},3.9).to('#thread svg',{rotate:-6,scale:1.08,duration:1.5},3.7);
+// horizontal labels
+const tr=$('#track');
+gsap.to(tr,{x:()=>-(tr.scrollWidth-innerWidth),ease:'none',scrollTrigger:{trigger:'#labels',pin:true,scrub:1,end:()=>'+='+(tr.scrollWidth-innerWidth),invalidateOnRefresh:true}});
+// marquee velocity
+gsap.to('#mqa',{xPercent:-35,ease:'none',scrollTrigger:{trigger:'#mq',scrub:true,start:'top bottom',end:'bottom top',onUpdate:s=>gsap.to('#mqa',{skewX:gsap.utils.clamp(-12,12,s.getVelocity()/-200),duration:.4,overwrite:'auto'})}});
+// map scrub
+const cnt=$('#cnt');
+ScrollTrigger.create({trigger:'#mapS',pin:true,scrub:true,start:'top top',end:'+=220%',onUpdate:s=>{lit=Math.round(s.progress*D.length*1.1);lit=Math.min(lit,D.length);cnt.textContent=lit;if(hov<0&&lit)$('#now').textContent=D[lit-1][0]+' — '+D[lit-1][4]}});
+// shipping
+const rt=$('#route'),L=rt.getTotalLength(),stops=$$('.stop');
+gsap.set('#routeOn',{strokeDasharray:L,strokeDashoffset:L});
+ScrollTrigger.create({trigger:'#ship',pin:true,start:'top top',end:'+=200%',scrub:true,onUpdate:s=>{const p=s.progress;gsap.set('#routeOn',{strokeDashoffset:L*(1-p)});const pt=rt.getPointAtLength(L*p);$('#dot').setAttribute('cx',pt.x);$('#dot').setAttribute('cy',pt.y);stops.forEach((e,i)=>e.classList.toggle('on',p>=i/4+.02))}});
+// reveals
+$$('.dr').forEach(r=>gsap.from(r,{y:60,opacity:0,scrollTrigger:{trigger:r,start:'top 88%',toggleActions:'play none none reverse'}}));
+gsap.from('#cta .ch',{yPercent:110,stagger:.03,duration:1,ease:'expo.out',scrollTrigger:{trigger:'#cta',start:'top 60%'}});
+// pages (hash routes)
+function route(){const h=location.hash.slice(1);['stores','shipping'].forEach(n=>{const p=$('#p-'+n),open=h==n;
+gsap.set(p,{visibility:'visible'});gsap.to(p,{clipPath:open?'circle(150% at 100% 0)':'circle(0% at 100% 0)',duration:.9,ease:'expo.inOut',onComplete:()=>{if(!open)gsap.set(p,{visibility:'hidden'})}});});
+document.body.style.overflow=(h=='stores'||h=='shipping')?'hidden':'';
+if(h=='story'||!h)window.scrollTo?0:0}
+addEventListener('hashchange',route);route();
+// calc
+const rg=$('#rg');function calc(){const v=+rg.value;$('#cv').textContent='₹'+v.toLocaleString('en-IN');$('#br').style.width=Math.min(100,v/1699*100)+'%';$('#cm').textContent=v>=1699?'Free shipping unlocked.':`Add ₹${1699-v} more for free shipping. Otherwise ₹49.`}
+rg.oninput=calc;calc();
+</script></body></html>
