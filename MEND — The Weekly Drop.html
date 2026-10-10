@@ -185,7 +185,7 @@ gsap.to('#prog',{scaleX:1,ease:'none',scrollTrigger:{scrub:.2,start:0,end:'max'}
 gsap.to('#hero h1',{yPercent:-30,opacity:.1,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
 // shirt story
 const caps=$$('.cap');
-gsap.timeline({scrollTrigger:{trigger:'#thread',pin:true,scrub:1,start:'top top',end:'+=180%'}})
+gsap.timeline({scrollTrigger:{trigger:'#thread',pin:true,scrub:1,start:'top top',end:'+=50%'}})
 .to('#shirt',{strokeDashoffset:0,duration:1.2,ease:'none'}).fromTo(caps[0],{opacity:0,y:25},{opacity:1,y:0,duration:.4},0.1).to(caps[0],{opacity:0,y:-25,duration:.3},1.1)
 .to('#stitch',{strokeDashoffset:0,duration:1.1,ease:'none'},1.2).fromTo(caps[1],{opacity:0,y:25},{opacity:1,y:0,duration:.4},1.2).to(caps[1],{opacity:0,y:-25,duration:.3},2.2)
 .to('#shirtFill',{opacity:1,duration:.7},2.3).fromTo(caps[2],{opacity:0,y:25},{opacity:1,y:0,duration:.4},2.3).to('#thread svg',{rotate:-6,scale:1.08,duration:1},2.3);
