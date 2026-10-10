@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><title>MEND — The Weekly Drop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,7 +95,7 @@ input[type=range]{width:100%;accent-color:var(--sig)}
 <div class="row"><a class="btn" data-mag data-c href="https://mymend.com/collections/newarrivals" target="_blank" rel="noopener">Shop the new drop →</a><a class="btn ghost" data-mag data-c href="#stores">Find a store</a></div>
 <span class="mono scroll">Scroll — the shirt is waiting</span></section>
 
-<section id="thread" class="pin">
+<section id="thread" class="pin"><div id="story" style="position:absolute;top:0;left:0;pointer-events:none"></div>
 <svg viewBox="0 0 200 200"><path id="shirtFill" d="M70 20 L40 40 L10 75 L35 95 L50 80 L50 180 L150 180 L150 80 L165 95 L190 75 L160 40 L130 20 Q100 45 70 20Z" fill="var(--sig)" opacity="0"/>
 <path id="shirt" pathLength="1" d="M70 20 L40 40 L10 75 L35 95 L50 80 L50 180 L150 180 L150 80 L165 95 L190 75 L160 40 L130 20 Q100 45 70 20Z" fill="none" stroke="var(--fg)" stroke-width="1.6" stroke-dasharray="1" stroke-dashoffset="1"/>
 <path id="stitch" pathLength="1" d="M56 172 H144 M70 26 Q100 50 130 26 M100 48 V172" fill="none" stroke="var(--sig)" stroke-width="1.2" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
@@ -185,10 +185,10 @@ gsap.to('#prog',{scaleX:1,ease:'none',scrollTrigger:{scrub:.2,start:0,end:'max'}
 gsap.to('#hero h1',{yPercent:-30,opacity:.1,scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
 // shirt story
 const caps=$$('.cap');
-gsap.timeline({scrollTrigger:{trigger:'#thread',pin:true,scrub:1,start:'top top',end:'+=300%'}})
-.to('#shirt',{strokeDashoffset:0,duration:2,ease:'none'}).to(caps[0],{opacity:1,y:0,duration:.6},0.2).to(caps[0],{opacity:0,y:-40,duration:.5},1.8)
-.to('#stitch',{strokeDashoffset:0,duration:1.5,ease:'none'},2).fromTo(caps[1],{opacity:0,y:40},{opacity:1,y:0,duration:.6},2.1).to(caps[1],{opacity:0,y:-40,duration:.5},3.6)
-.to('#shirtFill',{opacity:1,duration:1},3.7).fromTo(caps[2],{opacity:0,y:40},{opacity:1,y:0,duration:.6},3.9).to('#thread svg',{rotate:-6,scale:1.08,duration:1.5},3.7);
+gsap.timeline({scrollTrigger:{trigger:'#thread',pin:true,scrub:1,start:'top top',end:'+=180%'}})
+.to('#shirt',{strokeDashoffset:0,duration:1.2,ease:'none'}).fromTo(caps[0],{opacity:0,y:25},{opacity:1,y:0,duration:.4},0.1).to(caps[0],{opacity:0,y:-25,duration:.3},1.1)
+.to('#stitch',{strokeDashoffset:0,duration:1.1,ease:'none'},1.2).fromTo(caps[1],{opacity:0,y:25},{opacity:1,y:0,duration:.4},1.2).to(caps[1],{opacity:0,y:-25,duration:.3},2.2)
+.to('#shirtFill',{opacity:1,duration:.7},2.3).fromTo(caps[2],{opacity:0,y:25},{opacity:1,y:0,duration:.4},2.3).to('#thread svg',{rotate:-6,scale:1.08,duration:1},2.3);
 // horizontal labels
 const tr=$('#track');
 gsap.to(tr,{x:()=>-(tr.scrollWidth-innerWidth),ease:'none',scrollTrigger:{trigger:'#labels',pin:true,scrub:1,end:()=>'+='+(tr.scrollWidth-innerWidth),invalidateOnRefresh:true}});
@@ -208,7 +208,7 @@ gsap.from('#cta .ch',{yPercent:110,stagger:.03,duration:1,ease:'expo.out',scroll
 function route(){const h=location.hash.slice(1);['stores','shipping'].forEach(n=>{const p=$('#p-'+n),open=h==n;
 gsap.set(p,{visibility:'visible'});gsap.to(p,{clipPath:open?'circle(150% at 100% 0)':'circle(0% at 100% 0)',duration:.9,ease:'expo.inOut',onComplete:()=>{if(!open)gsap.set(p,{visibility:'hidden'})}});});
 document.body.style.overflow=(h=='stores'||h=='shipping')?'hidden':'';
-if(h=='story'||!h)window.scrollTo?0:0}
+if(h=='story'){const el=document.getElementById('thread')||document.getElementById('story');if(el)el.scrollIntoView({behavior:'smooth'})}}
 addEventListener('hashchange',route);route();
 // calc
 const rg=$('#rg');function calc(){const v=+rg.value;$('#cv').textContent='₹'+v.toLocaleString('en-IN');$('#br').style.width=Math.min(100,v/1699*100)+'%';$('#cm').textContent=v>=1699?'Free shipping unlocked.':`Add ₹${1699-v} more for free shipping. Otherwise ₹49.`}
